@@ -72,7 +72,7 @@ def solve_equation(x, m, p):
 
 
 temp_range = np.arange(300, 900, 1)
-pressure_range = np.arange(1, 6, 1)
+pressure_range = np.arange(10, 80, 10)
 
 conversion_solutions = []
 
@@ -95,10 +95,10 @@ for pressure in pressure_range:
 
         thermo_term = (heat_term * N_N2 - (DG_298) / (298 * 8.314))
 
-        initial_guess = 0.5
+        initial_guess = 0.9
         solution = fsolve(solve_equation, initial_guess, args=(thermo_term, pressure))
         
-        conversion = ((2 * solution) / (4 - 2 * solution)) / N_N2
+        conversion = solution / N_N2
         current_solution.append(conversion)
     else:
         conversion_solutions.append(current_solution)
@@ -118,7 +118,7 @@ for index, solution in enumerate(conversion_solutions):
     solution,
     yerr=None,
     fmt=f"o-{color}", 
-    label=f"{index + 1} atm", 
+    label=f"{pressure_range[index]} atm", 
     linewidth=1,
     elinewidth=2, 
     capsize=2, 
